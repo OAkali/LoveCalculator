@@ -2,41 +2,37 @@ package com.example.lovecalculator
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import com.example.lovecalculator.databinding.ActivityMainBinding
-import com.example.lovecalculator.model.LoveModel
 
-class MainActivity : AppCompatActivity(), LoveView {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val prisenter = Presenter()
+    private val viewModel:LoveViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        prisenter.attachView(this)
         initClickers()
     }
 
     private fun initClickers() {
         with(binding) {
             getBtn.setOnClickListener {
-
-                prisenter.getDate(firstEd.text.toString(), secondEd.text.toString())
+                viewModel.getLoveLiveData(firstEd.text.toString(),secondEd.text.toString())
+                    .observe(this@MainActivity, Observer {
+                        val intent = Intent(this@MainActivity, ResultActivity::class.java)
+                        intent.putExtra(KEY_RESULT, "${it.result}\n${it.percentage}\n${it.firstName}\n${it.secondName}")
+                        startActivity(intent)
+                    })
             }
         }
     }
 
 
-    override fun intentResult(model: LoveModel) {
-        val intent = Intent(this, ResultActivity::class.java)
-         intent.putExtra(KEY_RESULT, "${model.result}\n${model.percentage}\n${model.firstName}\n${model.secondName}")
-        startActivity(intent)
-    }
 
-    override fun error(error: String) {
-        Toast.makeText(this, error, Toast.LENGTH_LONG).show()
-    }
+
 
     companion object {
         const val KEY_RESULT = "key.madel"
