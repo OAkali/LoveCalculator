@@ -1,36 +1,30 @@
 package com.example.lovecalculator
 
-import retrofit2.Callback
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
+import com.example.lovecalculator.model.LoveApi
 import com.example.lovecalculator.model.LoveModel
-import com.example.lovecalculator.model.RetrofitService
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class Presenter {
-    val api = RetrofitService().api
-    private lateinit var view: LoveView
-    fun attachView(view: LoveView) {
-        this.view = view
-    }
-
-    fun getDate(firstName: String, secondName: String) {
-        api.getLovePerc(firstName, secondName).enqueue(object : Callback<LoveModel> {
+class Repository @Inject constructor(private val api: LoveApi) {
+    fun getData(firstName:String , secondName:String):MutableLiveData<LoveModel>{
+        val mutableLiveData=MutableLiveData<LoveModel>()
+        api.getLovePerc(firstName,secondName).enqueue(object :Callback<LoveModel>{
             override fun onResponse(call: Call<LoveModel>, response: Response<LoveModel>) {
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        view.intentResult(it)
-
+                if (response.isSuccessful){
+                    response.body()?.let {loveModel->
+                        mutableLiveData.postValue(loveModel)
                     }
                 }
             }
 
             override fun onFailure(call: Call<LoveModel>, t: Throwable) {
-                view.error(t.message.toString())
+              Log.e("ololo","onF: ${t.message}")
             }
-
         })
+        return mutableLiveData
     }
-
-
-
 }
