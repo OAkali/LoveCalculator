@@ -58,16 +58,17 @@
         android:layout_marginTop="32dp"
         android:textColor="@color/white"
         android:backgroundTint="@color/bink"/>
-    <TextView
+
+    <Button
+        android:id="@+id/historyBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:textSize="32dp"
-        android:id="@+id/result"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/bing_2"
+        android:padding="16dp"
+        android:text="History"
+        android:textColor="@color/white" />
 
 
 </LinearLayout>

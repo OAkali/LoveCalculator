@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.example.lovecalculator.databinding.ActivityMainBinding
 import com.example.lovecalculator.dl.local.Pref
+import com.example.lovecalculator.history.HistoryActivity
 import com.example.lovecalculator.onboard.OnBoardingActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -30,11 +31,15 @@ class MainActivity : AppCompatActivity() {
     }
     private fun initClickers() {
         with(binding) {
+            historyBtn.setOnClickListener {
+                startActivity(Intent(this@MainActivity, HistoryActivity::class.java))
+            }
             getBtn.setOnClickListener {
                 viewModel.getLoveLiveData(firstEd.text.toString(),secondEd.text.toString())
                     .observe(this@MainActivity, Observer {
                         val intent = Intent(this@MainActivity, ResultActivity::class.java)
                         intent.putExtra(KEY_RESULT, "${it.result}\n${it.percentage}\n${it.firstName}\n${it.secondName}")
+                        App.appDatabase.getDao().insert(it)
                         startActivity(intent)
                     })
             }

@@ -16,8 +16,11 @@
         android:theme="@style/Theme.LoveCalculator"
         tools:targetApi="31">
         <activity
+            android:name=".history.HistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".onboard.OnBoardingActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".ResultActivity"
             android:exported="false" />

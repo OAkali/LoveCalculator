@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.lovecalculator.model.LoveApi
 import com.example.lovecalculator.model.LoveModel
+import com.example.lovecalculator.room.LoveDAO
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
