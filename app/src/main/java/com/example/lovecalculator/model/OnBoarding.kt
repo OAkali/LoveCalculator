@@ -1,6 +1,6 @@
 package com.example.lovecalculator.model
 
 data class OnBoarding(
-    val image: String,
-    val name: String ,
+    val image: Int? = null,
+    val name: String ?=null
 )
